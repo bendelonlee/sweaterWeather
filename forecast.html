@@ -7,10 +7,17 @@
 </head>
 <body>
 
+    <div id="current-weather" class="card">
+      <h3> <span id="city-name"></span>, <span id='state-name'></span></h3>
+      <h4 id="country-name"></h4>
+      <p><span id="current-date">3/11</span>, <span id="current-time-of-day">3:30 PM</span></p>
+      <p id="current-summary"></p>
+      <p>high: <span id="current-high">50°</span> low: <span id="current-low">30°</span></p>
+      <p> <span id="current-temperature"></span></p>
+    </div>
+
       <!--  the a tag below can link you to another HTML page  -->
       <!--  if you click the button in the browser right now, you'll get an error because that is not a real file path -->
-      <input type="text">
-      <a href="forecast.html"><button class="default-button">Find Weather</button></a>
     <script
     src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
   </script>
