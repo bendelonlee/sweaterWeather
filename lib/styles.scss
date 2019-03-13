@@ -4,9 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+
 .card {
   background: #131931;
-  color: #E0F1F0;
+  color: white;
   max-width: 300px;
   font-weight: 100;
   border-radius: 5px;
@@ -14,6 +15,12 @@ body {
   padding: 15px;
   // display: inline;
 }
+
+
+.temp-low {
+  color: #E0F1F0
+}
+
 #current-temperature {
   font-size: 72px;
   display: inline;
