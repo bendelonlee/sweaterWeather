@@ -2,11 +2,12 @@
 body {
   background-color: grey;
   font-family: sans-serif;
+  background-size: cover;
 }
 
 
 .card {
-  background: #131931;
+  background: rgba(19,25,49, 0.6);
   color: white;
   max-width: 300px;
   font-weight: 100;
