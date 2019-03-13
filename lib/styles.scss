@@ -17,8 +17,13 @@ body {
 }
 
 
+
 .temp-low {
   color: #E0F1F0
+}
+
+#forecast-hours {
+  overflow: scroll;
 }
 
 #current-temperature {
