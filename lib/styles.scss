@@ -3,14 +3,29 @@ body {
   background-color: grey;
   font-family: sans-serif;
   background-size: cover;
+  font-weight: 100;
+
+}
+.dark {
+  background: rgba(19,25,49, 0.6);
+  color: white;
+}
+
+.dialogue-box {
+  background-color: white;
+  margin: 5px;
+  padding: 30px;
+  max-width: 300px;
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  box-shadow: 0px 0px 15px 2px #111;
+  display: none;
 }
 
 
 .card {
-  background: rgba(19,25,49, 0.6);
-  color: white;
   max-width: 300px;
-  font-weight: 100;
   border-radius: 5px;
   margin: 15px;
   padding: 15px;
@@ -25,6 +40,30 @@ body {
   color: #E0F1F0
 }
 
+.fa-window-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    &:hover {
+      color: red;
+    }
+    &:active {
+      font-weight: bold;
+    }
+}
+
+#flash {
+  display: none;
+  background-color: lightgreen;
+  position: absolute;
+  margin: 10px;
+  padding: 15px;
+  left: 50%;
+  text-align: center;
+  border-radius: 2px;
+  box-shadow: 0px 0px 15px 2px #111;
+}
+
 #forecast-hours {
   overflow: scroll;
 }
@@ -32,4 +71,8 @@ body {
 #current-temperature {
   font-size: 72px;
   display: inline;
+}
+
+#logout-button {
+  display: none;
 }
