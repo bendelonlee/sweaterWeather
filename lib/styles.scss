@@ -40,6 +40,18 @@ body {
   color: #E0F1F0
 }
 
+.fa-window-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    &:hover {
+      color: red;
+    }
+    &:active {
+      font-weight: bold;
+    }
+}
+
 #flash {
   display: none;
   background-color: lightgreen;
