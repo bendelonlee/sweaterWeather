@@ -59,6 +59,14 @@ body {
   fill: white;
 }
 
+.hour-icon {
+  margin: -30px;
+}
+
+.forecast-hour-data {
+  min-width: 70px;
+}
+
 #flash {
   display: none;
   // background-color: lightgreen;
