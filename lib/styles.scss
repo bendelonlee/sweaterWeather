@@ -25,7 +25,6 @@ body {
 
 
 .card {
-  max-width: 300px;
   border-radius: 5px;
   margin: 15px;
   padding: 15px;
@@ -98,4 +97,13 @@ body {
 
 #logout-button {
   display: none;
+}
+
+#main-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#forecast {
+  width: 400px;
 }
