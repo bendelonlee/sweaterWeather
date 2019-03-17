@@ -105,11 +105,27 @@ body {
 }
 
 #weather-details {
-  background: rgba(0, 0, 0, 0.6);
   width: 124px;
+}
+
+#current-weather {
+  color: white;
 }
 
 #forecast {
   width: 400px;
   background: rgba(49, 10, 19, 0.6)
+}
+
+#favorites {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.favorite-city {
+  border-color: rgba(100, 100, 100, 0.5);
+  border-width: 10px;
+  border-style: outset;
+  padding: 12px;
+  margin: 10px;
 }
