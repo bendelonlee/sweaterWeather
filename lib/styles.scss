@@ -104,6 +104,12 @@ body {
   flex-wrap: wrap;
 }
 
+#weather-details {
+  background: rgba(0, 0, 0, 0.6);
+  width: 124px;
+}
+
 #forecast {
   width: 400px;
+  background: rgba(49, 10, 19, 0.6)
 }
