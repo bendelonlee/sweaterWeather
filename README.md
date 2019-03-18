@@ -30,6 +30,8 @@ Be sure to run `nmp build` before deploying. Can be deployed as a static site to
 
 ## Known Issues
 
+The way the page displays when no weather has been searched for is messy. Same for favorites when there are none.
+
 The index.js file needs to be broken up.
 
 One or many forecast object classes could be extracted.
@@ -38,7 +40,7 @@ There is bug where duplicate elements relating to the current forecast appear un
 
 There is no indication of what the precipitation percent number means.
 
-There are more small bugs and fixes.
+Styling of data could use work.
 
 ## How to Contribute
 
