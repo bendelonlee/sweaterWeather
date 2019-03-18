@@ -1,79 +1,51 @@
-# Self-Directed Front-End Start Kit
+# Sweater Weather
+
+## Introduction
+
+Welcome to Sweater Weather, a front application serving weather information.
+
+## Production URL
+
+http://sweater-weather-1.surge.sh/
 
 ## Initial Setup
 
-1. Clone this starter kit repository and rename the repository to anything you'd like in one command:
-
-  ```shell
-  git clone git@github.com:turingschool-projects/self-directed-fe-starter.git <name of your choice>
-  ```
-2. Change into the new director directory.
-
-3. Remove the default remote (origin):
-
-  ```shell
-  git remote rm origin
-  ```
-
-4. Create a new repository on GitHub.
-
-5. Add your new repository remote - **your remote URL and user name will be different in the command below**
-
-  ```shell
-  git remote add origin git@github.com:<YOUR GITHUB NAME>/<PROJECT NAME>.git
-  ```
-
-6. Install the dependencies of the starter kit:
-
-  ```shell
-  npm install
-  ```
-
-7. Add, commit, and push up to your repository:
-
-  ```shell
-  git add .
-  git commit -m "Initial commit using starter kit"
-  git push origin master
-  ```
-
-## Running the Server Locally
-
-To see your code in action locally, you need to fire up a development server. Use the command:
-
-```shell
-npm start
+1. Clone down. From the command line:
 ```
+git clone git@github.com:bendelonlee/sweaterWeather.git
+```
+2. From the command line, run `npm install`.
 
-Once the server is running, visit in your browser:
+3. Ensure that a backend application is running and sending requests to the address contained in the variable backendAddress. The backend application is found here: https://github.com/bendelonlee/sweater_weather
 
-* `http://localhost:8080/` to run your application.
+## Deploying
 
+Be sure to run `nmp build` before deploying. Can be deployed as a static site to github pages or surge.
 
-## GitHub Pages Setup
-
-This site will be served from GitHub Pages in production.
-
-In order to see your application running on production:
-
-1. From the command line, run `npm run build`.
-
-2. Commit and push your application to GitHub.
-
-3. Visit your repository on Github
-
-4. Go to Settings
-
-5. Under the Github Pages section of Options, select 'master' as your source and click `Save`
-
-Be sure to `npm run build` and commit before each push to master. A few seconds after you push up, you should be able to see your application at <https://your-github-username.github.io/project-name>.
-
-
-## Built With
+## Tech Stack
 
 * [JavaScript](https://www.javascript.com/)
 * [jQuery](https://jquery.com/)
 * [Express](https://expressjs.com/)
-* [Mocha](https://mochajs.org/)
-* [Chai](https://chaijs.com/)
 
+## Known Issues
+
+The index.js file needs to be broken up.
+
+One or many forecast object classes could be extracted.
+
+There is no indication of what the precipitation percent number means.
+
+## How to Contribute
+
+Send a pull request to git@github.com:bendelonlee/sweaterWeather.git
+
+## Core Contributors
+
+Ben Lee
+
+## Special Thanks
+
+Corey Westerfield (@corywest)
+Dione W (@dionew)
+Anna Smolentzov (@asmolentzov)
