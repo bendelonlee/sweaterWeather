@@ -25,7 +25,6 @@ body {
 
 
 .card {
-  max-width: 300px;
   border-radius: 5px;
   margin: 15px;
   padding: 15px;
@@ -55,6 +54,25 @@ body {
   margin-left: 5px;
   color: gold;
 }
+.white-icon {
+  fill: white;
+}
+
+.hour-icon {
+  margin: -30px;
+}
+
+.forecast-hour-data {
+  min-width: 70px;
+}
+
+#icon-and-summary {
+  padding-bottom: 15px;
+}
+
+#current-weather-icon {
+  margin: -25px -20px -45px -25px;
+}
 
 #flash {
   display: none;
@@ -79,4 +97,35 @@ body {
 
 #logout-button {
   display: none;
+}
+
+#main-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#weather-details {
+  width: 124px;
+}
+
+#current-weather {
+  color: white;
+}
+
+#forecast {
+  width: 400px;
+  background: rgba(49, 10, 19, 0.6)
+}
+
+#favorites {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.favorite-city {
+  border-color: rgba(100, 100, 100, 0.5);
+  border-width: 10px;
+  border-style: outset;
+  padding: 12px;
+  margin: 10px;
 }
