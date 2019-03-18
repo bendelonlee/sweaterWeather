@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to Sweater Weather, a front application serving weather information.
+Welcome to Sweater Weather, a front application serving weather information. Users can search for weather by city, as well as register and save cities to their favorites.
 
 ## Production URL
 
@@ -37,6 +37,8 @@ One or many forecast object classes could be extracted.
 There is bug where duplicate elements relating to the current forecast appear underneath it.
 
 There is no indication of what the precipitation percent number means.
+
+There are more small bugs and fixes.
 
 ## How to Contribute
 
