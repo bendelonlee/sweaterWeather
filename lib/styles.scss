@@ -83,8 +83,7 @@ body {
 
 #flash {
   display: none;
-  // background-color: lightgreen;
-  position: absolute;
+  position: fixed;
   margin: 10px;
   padding: 15px;
   left: 50%;
