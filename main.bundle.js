@@ -141,11 +141,12 @@
 	}
 
 	function starSetup() {
+	  $('.current-star').css('font-weight', 'normal');
 	  starListener();
 	}
 
 	function starListener() {
-	  $(".fa-star").click(function (e) {
+	  $(".current-star").click(function (e) {
 	    $(this).css('font-weight', 'bold');
 	    addFavorite($('#current-weather').attr('data'));
 	  });
@@ -334,6 +335,8 @@
 	  var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "lightgreen";
 
 	  $('#flash').html(message);
+	  var width = $('#flash').width();
+	  $('#flash').css('margin-left', width * -0.5);
 	  $('#flash').css("background-color", color);
 	  $('#flash').fadeIn('fast');
 	  setTimeout(function () {
@@ -360,6 +363,37 @@
 	    return response.json();
 	  }).then(function (myJson) {
 	    renderFavorites(myJson);
+	    addFavoriteDeleteListener();
+	  });
+	}
+
+	function addFavoriteDeleteListener() {
+	  $(".favorite-close").mouseup(function () {
+	    $(this).css('font-weight', "normal");
+	    deleteFavorite($(this).parent().attr('data'));
+	    $(this).parent().fadeOut(5000);
+	  });
+	}
+
+	function deleteFavorite(city_id) {
+	  if (apiKey() === undefined) return null;
+	  fetch(backendAddress + '/api/v1/favorites?api_key=' + apiKey() + '&city_id=' + city_id, {
+	    method: 'delete',
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/json'
+	    }
+	  }).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    if (myJson.name) {
+	      renderFlash(myJson.name + ' has been removed from your favorites.');
+	      if (myJson.id.toString() === $('#current-weather').attr('data')) {
+	        starSetup();
+	      }
+	    } else {
+	      renderFlash('Server error.', 'red');
+	    }
 	  });
 	}
 
@@ -415,7 +449,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: grey;\n  font-family: sans-serif;\n  background-size: cover;\n  font-weight: 100; }\n\n.dark {\n  background: rgba(19, 25, 49, 0.6);\n  color: white; }\n\n.dialogue-box {\n  background-color: white;\n  margin: 5px;\n  padding: 30px;\n  max-width: 300px;\n  position: absolute;\n  left: 50%;\n  top: 20%;\n  box-shadow: 0px 0px 15px 2px #111;\n  display: none; }\n\n.card {\n  border-radius: 5px;\n  margin: 15px;\n  padding: 15px; }\n\n.scrollable {\n  overflow: scroll; }\n\n.temp-low {\n  color: #E0F1F0; }\n\n.fa-window-close {\n  position: absolute;\n  top: 8px;\n  right: 8px; }\n  .fa-window-close:hover {\n    color: red; }\n  .fa-window-close:active {\n    font-weight: bold; }\n\n.fa-star {\n  margin-left: 5px;\n  color: gold; }\n\n.white-icon {\n  fill: white; }\n\n.hour-icon {\n  margin: -30px; }\n\n.forecast-hour-data {\n  min-width: 70px; }\n\n#icon-and-summary {\n  padding-bottom: 15px; }\n\n#current-weather-icon {\n  margin: -25px -20px -45px -25px; }\n\n#flash {\n  display: none;\n  position: absolute;\n  margin: 10px;\n  padding: 15px;\n  left: 50%;\n  text-align: center;\n  border-radius: 2px;\n  box-shadow: 0px 0px 15px 2px #111; }\n\n#forecast-hours {\n  overflow: scroll; }\n\n#current-temperature {\n  font-size: 72px;\n  display: inline; }\n\n#logout-button {\n  display: none; }\n\n#main-flex {\n  display: flex;\n  flex-wrap: wrap; }\n\n#weather-details {\n  width: 124px; }\n\n#current-weather {\n  color: white; }\n\n#forecast {\n  width: 400px;\n  background: rgba(49, 10, 19, 0.6); }\n\n#favorites {\n  display: flex;\n  flex-wrap: wrap; }\n\n.favorite-city {\n  border-color: rgba(100, 100, 100, 0.5);\n  border-width: 10px;\n  border-style: outset;\n  padding: 12px;\n  margin: 10px; }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: grey;\n  font-family: sans-serif;\n  background-size: cover;\n  font-weight: 100; }\n\n.dark {\n  background: rgba(19, 25, 49, 0.6);\n  color: white; }\n\n.dialogue-box {\n  background-color: white;\n  margin: 5px;\n  padding: 30px;\n  max-width: 300px;\n  position: absolute;\n  left: 50%;\n  top: 20%;\n  box-shadow: 0px 0px 15px 2px #111;\n  display: none; }\n\n.card {\n  border-radius: 5px;\n  margin: 15px;\n  padding: 15px; }\n\n.scrollable {\n  overflow: scroll; }\n\n.temp-low {\n  color: #E0F1F0; }\n\n.fa-window-close {\n  position: absolute;\n  top: 8px;\n  right: 8px; }\n  .fa-window-close:hover {\n    color: red; }\n  .fa-window-close:active {\n    font-weight: bold; }\n\n.favorite-close {\n  position: relative;\n  top: -5px;\n  left: 106px;\n  font-weight: bold; }\n\n.fa-star {\n  margin-left: 5px;\n  color: gold; }\n\n.white-icon {\n  fill: white; }\n\n.hour-icon {\n  margin: -30px; }\n\n.forecast-hour-data {\n  min-width: 70px; }\n\n#icon-and-summary {\n  padding-bottom: 15px; }\n\n#current-weather-icon {\n  margin: -25px -20px -45px -25px; }\n\n#flash {\n  display: none;\n  position: fixed;\n  margin: 10px;\n  padding: 15px;\n  left: 50%;\n  text-align: center;\n  border-radius: 2px;\n  box-shadow: 0px 0px 15px 2px #111; }\n\n#forecast-hours {\n  overflow: scroll; }\n\n#current-temperature {\n  font-size: 72px;\n  display: inline; }\n\n#logout-button {\n  display: none; }\n\n#main-flex {\n  display: flex;\n  flex-wrap: wrap; }\n\n#weather-details {\n  width: 124px; }\n\n#current-weather {\n  color: white; }\n\n#forecast {\n  width: 400px;\n  background: rgba(49, 10, 19, 0.6); }\n\n#favorites {\n  display: flex;\n  flex-wrap: wrap; }\n\n.favorite-city {\n  border-color: rgba(100, 100, 100, 0.5);\n  border-width: 10px;\n  border-style: outset;\n  padding: 12px;\n  margin: 10px; }\n", ""]);
 
 	// exports
 
@@ -752,7 +786,7 @@
 	});
 	exports.favoriteHtml = favoriteHtml;
 	function favoriteHtml(city) {
-	   return "<div id=\"favorite-city-" + city.id + "\" class=\"favorite-city\">\n       <h3> <span id=\"city-name\">" + city.name + "</span>, <span id='state-name'></span></h3>\n       <h4 id=\"country-name\">" + city.country + "</h4>\n       <p id=\"current-summary\">" + city.current_weather.summary + "</p>\n       <p> <span id=\"current-temperature\">" + city.current_weather.temperature + "</span></p>\n\n       <p> <span id=\"feels-like\">Feels Like: " + city.current_weather.feels_like + "</span></p>\n       <p> <span id=\"humidity\">Humidity: " + city.current_weather.humidity + "</span></p>\n       <p> <span id=\"visibility\">Visibility: " + city.current_weather.visibility + "</span></p>\n       <p> <span id=\"uv-index\">UV Index: " + city.current_weather.uv_index + "</span></p>\n     </div>";
+	   return "<div id=\"favorite-city-" + city.id + "\" class=\"favorite-city\" data=\"" + city.id + "\">\n       <i class=\"far fa-star favorite-close\"></i>\n       <h3> <span id=\"city-name\">" + city.name + "</span>, <span id='state-name'></span></h3>\n       <h4 id=\"country-name\">" + city.country + "</h4>\n       <p id=\"current-summary\">" + city.current_weather.summary + "</p>\n       <p> <span id=\"current-temperature\">" + city.current_weather.temperature + "</span></p>\n\n       <p> <span id=\"feels-like\">Feels Like: " + city.current_weather.feels_like + "</span></p>\n       <p> <span id=\"humidity\">Humidity: " + city.current_weather.humidity + "</span></p>\n       <p> <span id=\"visibility\">Visibility: " + city.current_weather.visibility + "</span></p>\n       <p> <span id=\"uv-index\">UV Index: " + city.current_weather.uv_index + "</span></p>\n     </div>";
 	}
 
 /***/ }),
@@ -840,7 +874,7 @@
 	  value: true
 	});
 	var currentWeatherHtml = exports.currentWeatherHtml = function currentWeatherHtml(iconPath) {
-	  return "<div class=\"card \">\n  <h3> <span id=\"city-name\"></span>, <span id='state-name'></span><i class=\"far fa-star\"></i></h3>\n  <h4 id=\"country-name\"></h4>\n  <p id=\"current-time\"></p>\n  <p id=\"icon-and-summary\">\n    <span>\n      <img id=\"current-weather-icon\" src=\"" + iconPath + "\">\n      </img>\n    </span>\n    <span id=\"current-summary\"></span>\n  </p>\n  <p>\n    <i class=\"fas fa-long-arrow-alt-up\"></i>\n    <span id=\"current-high\"></span>\n    <span class=\"temp-low\">\n      <i class=\"fas fa-long-arrow-alt-down\"></i>\n      <span id=\"current-low\"></span>\n    </span>\n    </p>\n  <p> <span id=\"current-temperature\"></span></p>\n</div>";
+	  return "<div class=\"card\">\n  <h3> <span id=\"city-name\"></span>, <span id='state-name'></span><i class=\"far fa-star current-star\"></i></h3>\n  <h4 id=\"country-name\"></h4>\n  <p id=\"current-time\"></p>\n  <p id=\"icon-and-summary\">\n    <span>\n      <img id=\"current-weather-icon\" src=\"" + iconPath + "\">\n      </img>\n    </span>\n    <span id=\"current-summary\"></span>\n  </p>\n  <p>\n    <i class=\"fas fa-long-arrow-alt-up\"></i>\n    <span id=\"current-high\"></span>\n    <span class=\"temp-low\">\n      <i class=\"fas fa-long-arrow-alt-down\"></i>\n      <span id=\"current-low\"></span>\n    </span>\n    </p>\n  <p> <span id=\"current-temperature\"></span></p>\n</div>";
 	};
 
 /***/ })
