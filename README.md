@@ -36,11 +36,7 @@ The index.js file needs to be broken up.
 
 One or many forecast object classes could be extracted.
 
-There is bug where duplicate elements relating to the current forecast appear underneath it.
-
 There is no indication of what the precipitation percent number means.
-
-Styling of data could use work.
 
 ## How to Contribute
 
