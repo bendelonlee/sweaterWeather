@@ -128,6 +128,10 @@ body {
   flex-wrap: wrap;
 }
 
+#favorites-container {
+  display: none;
+}
+
 .favorite-city {
   border-color: rgba(100, 100, 100, 0.5);
   border-width: 10px;
