@@ -126,7 +126,7 @@ body {
 }
 
 #forecast {
-  width: 400px;
+  width: 434px;
   background: rgba(49, 10, 19, 0.6)
 }
 
@@ -137,6 +137,14 @@ body {
 
 #favorites-container {
   display: none;
+}
+
+
+#intro {
+  font-weight: 400;
+  font-size: 40px;
+  margin: 14px;
+  text-align: center;
 }
 
 .favorite-city {
