@@ -6,6 +6,7 @@ body {
   font-weight: 100;
 
 }
+
 .dark {
   background: rgba(19,25,49, 0.6);
   color: white;
@@ -23,7 +24,6 @@ body {
   display: none;
 }
 
-
 .card {
   border-radius: 5px;
   margin: 15px;
@@ -36,7 +36,10 @@ body {
 }
 
 .temp-low {
-  color: #E0F1F0
+  color: #C0F1FE
+}
+.temp-high {
+  color: #FFBBBB
 }
 
 .fa-window-close {
