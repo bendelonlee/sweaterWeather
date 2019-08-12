@@ -94,7 +94,7 @@
 	}
 
 	function renderDetails(weather) {
-	  $("#feels-like").html(weather.current_hour.feels_like);
+	  $("#feels-like").html(parseInt(weather.current_hour.feels_like) + "°F");
 	  $("#humidity").html(weather.current_hour.humidity);
 	  $("#visibility").html(weather.current_hour.visibility);
 	  $("#uv-index").html(weather.current_hour.uv_index);
@@ -108,9 +108,10 @@
 	    day = $('#forecast-day-' + index);
 	    day.append((0, _forecastDayHtml.forecastDayHtml)(_iconPaths.iconPaths[weather.days[index].icon]));
 	    day.find('.forecast-day-name').html(weather['days'][index]["day_of_week"]);
-	    day.find('.forecast-day-high').html(weather['days'][index]["high"]);
-	    day.find('.forecast-day-low').html(weather['days'][index]["low"]);
-	    day.find('.forecast-day-precip-probability').html(weather['days'][index]["precip_probability"]);
+	    day.find('.forecast-day-high').html(weather['days'][index]["high"] + "°F");
+	    day.find('.forecast-day-low').html(weather['days'][index]["low"] + "°F");
+	    day.find('.forecast-day-precip-probability').html(weather['days'][index]["precip_probability"] + "<span class='small-text'> chance of " + weather['days'][index]["precip_type"] + "</span>");
+	    day.find('.forecast-day-low').html();
 	  });
 	}
 
@@ -120,12 +121,13 @@
 	    var hourDOM = $('#forecast-hour-' + index);
 	    hourDOM.append((0, _forecastHourHtml.forecastHourHtml)(_iconPaths.iconPaths[weather.hours[index].icon]));
 	    hourDOM.find('.hour-time').html(weather['hours'][index]['time_of_day']);
-	    hourDOM.find('.hour-temp').html(weather['hours'][index]['temperature']);
+	    hourDOM.find('.hour-temp').html(weather['hours'][index]['temperature'] + "°F");
 	  });
 	}
 
 	function renderCurrentWeather(weather) {
 	  var iconPath = _iconPaths.iconPaths[weather.current_hour.icon];
+	  $('#current-weather').empty();
 	  $('#current-weather').append((0, _currentWeatherHtml.currentWeatherHtml)(iconPath));
 	  $('#current-weather').attr('data', weather.city.id);
 	  $('#city-name').html(weather['city']['city_name']);
@@ -145,11 +147,28 @@
 	  starListener();
 	}
 
+	function isLoggedIn() {
+	  var match = document.cookie.match(/(?<=apiKey=)[\w\.-]+/);
+	  if (match == null) {
+	    return false;
+	  } else {
+	    return true;
+	  }
+	}
+
 	function starListener() {
 	  $(".current-star").click(function (e) {
-	    $(this).css('font-weight', 'bold');
-	    addFavorite($('#current-weather').attr('data'));
+	    if (isLoggedIn() == true) {
+	      $(this).css('font-weight', 'bold');
+	      addFavorite($('#current-weather').attr('data'));
+	    } else {
+	      logInMessage();
+	    }
 	  });
+	}
+
+	function logInMessage() {
+	  renderFlash("To favorite a city, you must be logged in", "grey");
 	}
 
 	function addFavorite(cityId) {
@@ -233,6 +252,7 @@
 	    if ($("#register-dialogue").is(':empty')) {
 	      $("#register-dialogue").append((0, _registrationHtml.registrationHtml)());
 	    }
+	    $('#login-dialogue').hide();
 	    $("#register-dialogue").slideDown(700);
 	    $("#register-dialogue").find('.submit-button').click(function () {
 	      registerUser($('#registration-email').val(), $('#registration-password').val(), $('#registration-password-confirmation').val());
@@ -249,6 +269,7 @@
 	      $("#login-dialogue").append((0, _loginHtml.loginHtml)());
 	    }
 	    $("#login-dialogue").slideDown(700);
+	    $('#register-dialogue').hide();
 	    $("#login-dialogue").find('.submit-button').click(function () {
 	      loginUser($('#login-email').val(), $('#login-password').val());
 	    });
@@ -259,6 +280,7 @@
 	}
 
 	function loginUser(email, password) {
+	  $('#favorites-container').show();
 	  fetch(backendAddress + '/api/v1/sessions?email=' + email + '&password=' + password, {
 	    method: 'POST',
 	    headers: {
@@ -308,6 +330,7 @@
 	    renderFlash('Login Failed.');
 	  } else {
 	    renderFlash('You are now logged in!');
+
 	    document.cookie = 'apiKey=' + apiKey;
 	  }
 	  renderLoggedInPage();
@@ -327,6 +350,7 @@
 	    $('#register-button').show();
 	    $('#login-button').show();
 	    $('#logout-button').hide();
+	    $('#favorites-container').hide();
 	    renderFlash('You have logged out');
 	  });
 	}
@@ -399,6 +423,7 @@
 
 	function renderFavorites(weather) {
 	  $('#favorites-container').empty();
+	  $('#favorites-container').css("display", "block");
 	  $('#favorites-container').append('<h2>Your Favorites</h2>');
 	  $('#favorites-container').append('<div id="favorites"></div>');
 
@@ -449,7 +474,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: grey;\n  font-family: sans-serif;\n  background-size: cover;\n  font-weight: 100; }\n\n.dark {\n  background: rgba(19, 25, 49, 0.6);\n  color: white; }\n\n.dialogue-box {\n  background-color: white;\n  margin: 5px;\n  padding: 30px;\n  max-width: 300px;\n  position: absolute;\n  left: 50%;\n  top: 20%;\n  box-shadow: 0px 0px 15px 2px #111;\n  display: none; }\n\n.card {\n  border-radius: 5px;\n  margin: 15px;\n  padding: 15px; }\n\n.scrollable {\n  overflow: scroll; }\n\n.temp-low {\n  color: #E0F1F0; }\n\n.fa-window-close {\n  position: absolute;\n  top: 8px;\n  right: 8px; }\n  .fa-window-close:hover {\n    color: red; }\n  .fa-window-close:active {\n    font-weight: bold; }\n\n.favorite-close {\n  position: relative;\n  top: -5px;\n  left: 106px;\n  font-weight: bold; }\n\n.fa-star {\n  margin-left: 5px;\n  color: gold; }\n\n.white-icon {\n  fill: white; }\n\n.hour-icon {\n  margin: -30px; }\n\n.forecast-hour-data {\n  min-width: 70px; }\n\n#icon-and-summary {\n  padding-bottom: 15px; }\n\n#current-weather-icon {\n  margin: -25px -20px -45px -25px; }\n\n#flash {\n  display: none;\n  position: fixed;\n  margin: 10px;\n  padding: 15px;\n  left: 50%;\n  text-align: center;\n  border-radius: 2px;\n  box-shadow: 0px 0px 15px 2px #111; }\n\n#forecast-hours {\n  overflow: scroll; }\n\n#current-temperature {\n  font-size: 72px;\n  display: inline; }\n\n#logout-button {\n  display: none; }\n\n#main-flex {\n  display: flex;\n  flex-wrap: wrap; }\n\n#weather-details {\n  width: 124px; }\n\n#current-weather {\n  color: white; }\n\n#forecast {\n  width: 400px;\n  background: rgba(49, 10, 19, 0.6); }\n\n#favorites {\n  display: flex;\n  flex-wrap: wrap; }\n\n.favorite-city {\n  border-color: rgba(100, 100, 100, 0.5);\n  border-width: 10px;\n  border-style: outset;\n  padding: 12px;\n  margin: 10px; }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: grey;\n  font-family: sans-serif;\n  background-size: cover;\n  font-weight: 100; }\n\n.dark {\n  background: rgba(19, 25, 49, 0.6);\n  color: white; }\n\n.dialogue-box {\n  background-color: white;\n  margin: 5px;\n  padding: 30px;\n  max-width: 300px;\n  position: absolute;\n  left: 50%;\n  top: 20%;\n  box-shadow: 0px 0px 15px 2px #111;\n  display: none; }\n\n.card {\n  border-radius: 5px;\n  margin: 15px;\n  padding: 15px; }\n\n.scrollable {\n  overflow: scroll; }\n\n.current-weather-card {\n  background: rgba(19, 25, 49, 0.6); }\n\n.temp-low {\n  color: #C0F1FE; }\n\n.temp-high {\n  color: #FFBBBB; }\n\n.fa-window-close {\n  position: absolute;\n  top: 8px;\n  right: 8px; }\n  .fa-window-close:hover {\n    color: red; }\n  .fa-window-close:active {\n    font-weight: bold; }\n\n.favorite-close {\n  position: relative;\n  top: -5px;\n  left: 106px;\n  font-weight: bold; }\n\n.fa-star {\n  margin-left: 5px;\n  color: gold; }\n\n.white-icon {\n  fill: white; }\n\n.hour-icon {\n  margin: -30px; }\n\n.forecast-hour-data {\n  min-width: 70px; }\n\n#icon-and-summary {\n  padding-bottom: 15px; }\n\n#current-weather-icon {\n  margin: -25px -20px -45px -25px; }\n\n#flash {\n  display: none;\n  position: fixed;\n  margin: 10px;\n  padding: 15px;\n  left: 50%;\n  text-align: center;\n  border-radius: 2px;\n  box-shadow: 0px 0px 15px 2px #111; }\n\n#forecast-hours {\n  overflow: scroll; }\n\n#current-temperature {\n  font-size: 72px;\n  display: inline; }\n\n#logout-button {\n  display: none; }\n\n#main-flex {\n  display: flex;\n  flex-wrap: wrap; }\n\n#weather-details {\n  width: 124px; }\n\n#current-weather {\n  color: white; }\n\n#forecast {\n  width: 400px;\n  background: rgba(49, 10, 19, 0.6); }\n\n#favorites {\n  display: flex;\n  flex-wrap: wrap; }\n\n#favorites-container {\n  display: none; }\n\n.favorite-city {\n  border-color: rgba(100, 100, 100, 0.5);\n  border-width: 10px;\n  border-style: outset;\n  padding: 12px;\n  margin: 10px; }\n", ""]);
 
 	// exports
 
@@ -848,7 +873,7 @@
 	  value: true
 	});
 	var forecastDayHtml = exports.forecastDayHtml = function forecastDayHtml(iconPath) {
-	  return "\n  <td class=\"forecast-day-name\"></td>\n  <td class=\"forecast-day-precip-probability\"></td>\n  <td>\n    <i class=\"fas fa-long-arrow-alt-up\"></i>\n    <span class=\"forecast-day-high\"></span>\n  </td>\n  <td>\n    <img class=\"day-icon\" src=\"" + iconPath + "\">\n    </img>\n  </td>\n  <td class='temp-low'>\n    <i class=\"fas fa-long-arrow-alt-down\"></i>\n    <span class=\"forecast-day-low\"></span>\n  </td>\n  ";
+	  return "\n  <td class=\"forecast-day-name\"></td>\n  <td>\n    <img class=\"day-icon\" src=\"" + iconPath + "\">\n    </img>\n  </td>\n  <td class=\"forecast-day-precip-probability\"></td>\n  <td class='temp-high'>\n    <i class=\"fas fa-long-arrow-alt-up\"></i>\n    <span class=\"forecast-day-high\"></span>\n  </td>\n\n  <td class='temp-low'>\n    <i class=\"fas fa-long-arrow-alt-down\"></i>\n    <span class=\"forecast-day-low\"></span>\n  </td>\n  ";
 	};
 
 /***/ }),
@@ -874,7 +899,7 @@
 	  value: true
 	});
 	var currentWeatherHtml = exports.currentWeatherHtml = function currentWeatherHtml(iconPath) {
-	  return "<div class=\"card\">\n  <h3> <span id=\"city-name\"></span>, <span id='state-name'></span><i class=\"far fa-star current-star\"></i></h3>\n  <h4 id=\"country-name\"></h4>\n  <p id=\"current-time\"></p>\n  <p id=\"icon-and-summary\">\n    <span>\n      <img id=\"current-weather-icon\" src=\"" + iconPath + "\">\n      </img>\n    </span>\n    <span id=\"current-summary\"></span>\n  </p>\n  <p>\n    <i class=\"fas fa-long-arrow-alt-up\"></i>\n    <span id=\"current-high\"></span>\n    <span class=\"temp-low\">\n      <i class=\"fas fa-long-arrow-alt-down\"></i>\n      <span id=\"current-low\"></span>\n    </span>\n    </p>\n  <p> <span id=\"current-temperature\"></span></p>\n</div>";
+	  return "<div class=\"current-weather-card card\">\n  <h3> <span id=\"city-name\"></span>, <span id='state-name'></span><i class=\"far fa-star current-star\"></i></h3>\n  <h4 id=\"country-name\"></h4>\n  <p id=\"current-time\"></p>\n  <p id=\"icon-and-summary\">\n    <span>\n      <img id=\"current-weather-icon\" src=\"" + iconPath + "\">\n      </img>\n    </span>\n    <span id=\"current-summary\"></span>\n  </p>\n  <p>\n    <span class=\"temp-high\">\n      <i class=\"fas fa-long-arrow-alt-up\"></i>\n    </span>\n    <span id=\"current-high\"></span>\n    <span class=\"temp-low\">\n      <i class=\"fas fa-long-arrow-alt-down\"></i>\n      <span id=\"current-low\"></span>\n    </span>\n    </p>\n  <p> <span id=\"current-temperature\"></span></p>\n</div>";
 	};
 
 /***/ })
